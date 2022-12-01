@@ -416,7 +416,8 @@
         function get_request_url(request) {
             var get_token = jQuery("#token").val();
             if(get_token != ''){
-                return "https://script.google.com/macros/s/AKfycbxUOr_3z9P0PTwz1tyjCBMkWrSLLW_oqskeMyAoVYUhmVTBgKaLnvLWki_WOxqQrfCRjg/exec?token=" + get_token + "&requesttype=" + request + "&classroom=" + get_classroom_text();
+                //return "https://script.google.com/macros/s/AKfycbxUOr_3z9P0PTwz1tyjCBMkWrSLLW_oqskeMyAoVYUhmVTBgKaLnvLWki_WOxqQrfCRjg/exec?token=" + get_token + "&requesttype=" + request + "&classroom=" + get_classroom_text();
+                return "https://script.google.com/macros/s/AKfycbxhmdX5m6Y-nw1sbquxcQhg0egbl03KpWcKD3Ahsz3AcRrXEYRzbNLISkM9fUcnSnwA/exec?token=" + get_token + "&requesttype=" + request + "&classroom=" + get_classroom_text();
             }else{
                 var get_teacher_userid = jQuery("#userid").val();
                 return "https://script.google.com/macros/s/AKfycbxhmdX5m6Y-nw1sbquxcQhg0egbl03KpWcKD3Ahsz3AcRrXEYRzbNLISkM9fUcnSnwA/exec?teacher_userid=" + get_teacher_userid + "&requesttype=" + request + "&classroom=" + get_classroom_text();
