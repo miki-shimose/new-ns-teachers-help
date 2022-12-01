@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ヘルプサイト｜職員用</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+        }
+        #header {
+            padding: 5px 30px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+            border-top: 5px solid #1f286f;
+        }
+        #header h1 {
+            font-size: 22px;
+            float: left;
+        }
+        #header p {
+            margin-top: 15px;
+            text-align: right;
+        }
+        #sidefloat,
+        .floatchange {
+            clear: both;
+        }
+        #content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #maincontent {
+            visibility: hidden;
+            pointer-events: none;
+        }
+        input,
+        select {
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        select {
+            color: #fff;
+            background-color: #5c9cd8;
+            padding: 10px 20px;
+            font-size: 17px;
+            border: 0;
+            border-radius: 10px;
+            outline: none;
+            margin: 10px;
+        }
+        button {
+            border: none;
+            cursor: pointer;
+            outline: none;
+            background-color: #5c9cd8;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 18px;
+            padding: 10px 25px;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #72afe8;
+        }
+        button:disabled {
+            background-color: #8aaecf;
+            cursor: not-allowed;
+        }
+        #push_request_button {
+            font-size: 14px;
+            padding: 10px 15px;
+        }
+        .push_control_button {
+            font-size: 14px;
+        }
+        #push_music {
+            cursor:pointer;
+        }
+        input:not([type="checkbox"]) {
+            outline: none;
+            width: 100%;
+            height: 10px;
+            font-size: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #a3a3a3;
+        }
+    </style>
+    <style>
+        #pointarea {
+            max-width: 600px;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            user-select: none;
+            cursor: pointer;
+            float: left;
+        }
+        #point {
+            position: absolute;
+            z-index: -1;
+            top: 0;
+            left: 0;
+            display: none;
+        }
+        #point img {
+            max-width: 40px;
+        }
+        #map {
+            border: 1px solid #9c9c9c;
+            position: absolute;
+            z-index: -2;
+            top: 0;
+            left: 0;
+        }
+        #map img {
+            width: 100%;
+            vertical-align: middle;
+        }
+        #all_classroom {
+            width: 100%;
+            max-width: 500px;
+            max-height: 100px;
+            overflow: scroll;
+            float: left;
+            border: 1px solid #787878;
+            padding: 15px 25px;
+            margin: 0 20px;
+            margin-bottom:10px;
+        }
+        #all_classroom p {
+            margin:0;
+        }
+        #side {
+            width: 100%;
+            max-width: 500px;
+            max-height: 330px;
+            overflow: scroll;
+            float: left;
+            border: 1px solid #787878;
+            padding: 10px 25px;
+            margin: 0 20px;
+        }
+        #dataarea {
+            width: 100%;
+            max-width: 550px;
+            border: 1px solid #787878;
+            padding: 10px 25px;
+            margin: 10px 0 0 0;
+        }
+        #question_area {
+            word-break: break-all;
+        }
+        #alertmessage {
+            border: 4px solid #ff0000;
+            border-radius: 15px;
+            padding: 10px;
+            display: none;
+            margin: 5px 0;
+        }
+        #side .waitinglist {
+            margin: 0;
+            margin-bottom: 10px;
+        }
+        #side #waitingcount {
+            margin: 0;
+            margin-bottom: 5px;
+            text-align: right;
+        }
+        #side button {
+            font-size: 16px;
+            padding: 6px 22px;
+            margin-left: 20px;
+        }
+      
+        @media screen and (max-width: 1200px) {
+            #side {
+                max-width: 550px;
+                float: none;
+                margin: 0;
+            }
+            #sidefloat {
+                clear: none;
+            }
+        }
+
+        @media screen and (max-width: 620px) {
+            #pointarea {
+                width: 100%;
+                margin: 0 auto;
+            }
+            #header {
+                padding: 5px 15px;
+                margin-bottom: 5px;
+            }
+            #header h1 {
+                margin: 5px 0;
+                font-size: 18px;
+                float: none;
+            }
+            #header p {
+                margin: 4px 0;
+                text-align: right;
+            }
+            #main {
+                margin: 0 5px;
+            }
+            select {
+                font-size: 16px;
+                padding: 5px 20px;
+                margin: 10px;
+            }
+            button {
+                font-size: 16px;
+                padding: 5px 20px;
+                margin: 5px;
+            }
+            .floatchange {
+                clear: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>ヘルプサイト｜職員用</h1>
+        <p class="login_user">ログイン : <span id="display_mailaddress">取得中です。</span></p>
+        <div class="floatchange"></div>
+    </div>
+    <div id="content">
+        <div id="g_id_onload" data-client_id="700198225784-5pkou6johkgi12udm1a106orqdphoegk" data-auto_select="true"
+            data-callback="handleCredentialResponse">
+        </div>
+        <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline" data-text="sign_in_with"
+            data-shape="rectangular" data-logo_alignment="left">
+        </div>
+        <div id="messagecontent">
+            <p>N・S高職員用のGoogleアカウント( @nnn.ac.jp )を選択してログインしてください。<br>2度目以降は自動でログインされます。</p>
+        </div>
+        <div id="maincontent">
+            <div id="main">
+                <div id="alertmessage">
+                    <p>画面サイズが変更されたため、ピンの位置が正しく無い可能性があります。<br>対応中の場合は、対応完了後にリロードしてください。</p>
+                </div>
+                <div id="menu">
+                    <select name="classroom">
+                        <option value="rio">リオ</option>
+                        <option value="sv">SV</option>
+                        <option value="pari">パリード</option>
+                    </select>
+                    <button id="push_request_button">プッシュ通知を受け取る</button>
+                    <button id="push_mute_on" class="push_control_button"
+                        style="display:none;">プッシュ通知のミュートを解除する</button>
+                    <button id="push_mute_off" class="push_control_button" style="display:none;">プッシュ通知をミュートにする</button>
+                    <span id="push_music"><i id="push_music_on" style="display:none;" class="fas fa-bell"></i><i id="push_music_off" class="fas fa-bell-slash"></i></span>
+                </div>
+                <div id="pointarea">
+                    <div id="point">
+                        <img src="https://miki-shimose.github.io/ns-students-help/img/point.png">
+                    </div>
+                    <div id="map">
+                        <img src="https://miki-shimose.github.io/ns-students-help/img/rio.png">
+                    </div>
+                </div>
+                <div id="all_classroom">
+                    <p>ユーザー認証中です。</p>
+                </div>
+                <div id="side">
+                    <p>ユーザー認証中です。</p>
+                </div>
+                <div id="sidefloat"></div>
+            </div>
+            <div id="dataarea">
+                <p>[ 場所を表示 ]を押すと、下に操作用のボタンが表示されます。</p>
+                <p style="display:none;" id="support_register_wait_message">登録中です。しばらくお待ちください。</p>
+                <div style="display:none;" id="buttonarea"></div>
+            </div>
+            <input type="hidden" id="userid"></input>
+            <input type="hidden" id="token"></input>
+        </div>
+    </div>
+    <audio id="pushaudio">
+        <source src="https://miki-shimose.github.io/ns-teachers-help/asset/push-music.mp3" type="audio/mp3">
+    </audio>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/push.js/1.0.12/push.min.js"></script>
+    <script>
+        function handleCredentialResponse(response) {
+            var user_data = parseJwt(response.credential);
+
+            jQuery("#userid").val(user_data.sub);
+            jQuery("#display_mailaddress").text(user_data.email);
+
+            get_token();
+            
+            /*get_wait_list();*/
+
+            /*動作確認用で自分と教職員のみアクセス許可設定にしています！*/
+            if (user_data.email.indexOf('miki_19n1100110@nnn.ed.jp') != -1 || user_data.email.indexOf('@nnn.ac.jp') != -1) {
+                //if(user_data.email.indexOf('@nnn.ac.jp') != -1){
+                jQuery("#maincontent").css("visibility", "visible");
+                jQuery("#maincontent").css("pointer-events", "auto");
+                jQuery("#messagecontent").css("display", "none");
+            } else {
+                jQuery("#messagecontent").html('<p>N・S高職員用のGoogleアカウント( @nnn.ac.jp )でログインしてください。</p>');
+            }
+        }
+
+        function parseJwt(token) {
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var json = decodeURIComponent(atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(json);
+        };
+        
+        function get_token(){
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("get_token"),
+                dataType: "text"
+            }).done(function (data) {
+                data = JSON.parse(data);
+                data = data["message"];
+                if (data != "") {
+                    jQuery("#token").val(data);
+                    jQuery("#all_classroom").html("<p>リストを取得中です。</p>");
+                    jQuery("#side").html("<p>リストを取得中です。</p>");
+                }else{
+                    console.log("token null");
+                }
+            }).fail(function () {
+                error_message("reload");
+            });
+        }
+
+        if (Push.Permission.has() == true) {
+            jQuery("#push_request_button").css("display", "none");
+            jQuery("#push_mute_off").css("display", "inline");
+        }
+
+        jQuery("#push_request_button").on("click", function () {
+            Push.Permission.request(PushonGranted, PushonDenied);
+        });
+
+        function PushonGranted() {
+            jQuery("#push_request_button").css("display", "none");
+            jQuery("#push_mute_off").css("display", "inline");
+            alert("プッシュ通知を許可しました。\n通知が届くようになります。");
+        }
+
+        function PushonDenied() {
+            alert("プッシュ通知を拒否しました。\n今後も通知は届きません。");
+        }
+
+        jQuery("#push_mute_on").on("click", function () {
+            alert("プッシュ通知のミュートを解除しました。");
+            jQuery("#push_mute_on").css("display", "none");
+            jQuery("#push_mute_off").css("display", "inline");
+        });
+
+        jQuery("#push_mute_off").on("click", function () {
+            alert("プッシュ通知をミュートにしました。");
+            jQuery("#push_mute_off").css("display", "none");
+            jQuery("#push_mute_on").css("display", "inline");
+        });
+
+        jQuery(window).on('load', function () {
+            map_size_set();
+        });
+
+        jQuery(window).resize(function () {
+            if (jQuery("#buttonarea").css("display") == "block") {
+                jQuery("#alertmessage").css("display", "block");
+            }
+            map_size_set();
+        });
+
+        function get_classroom_text() {
+            return jQuery('[name=classroom] option:selected').text();
+        }
+
+        function get_classroom_value() {
+            return jQuery('[name=classroom] option:selected').val();
+        }
+
+        function classroom_change_after_get_list() {
+            classroom_change = false;
+            now_check = false;
+            get_wait_list();
+            get_wait_list_interval = setInterval(get_wait_list, 2500);
+        }
+
+        jQuery('[name=classroom]').change(function () {
+            jQuery("#buttonarea").css("display", "none");
+            jQuery("#point").css("display", "none");
+
+            classroom_change = true;
+            clearInterval(get_wait_list_interval);
+            
+            var classroom_name = get_classroom_value();
+            var get_map_url = "https://miki-shimose.github.io/ns-students-help/img/" + classroom_name + ".png";
+            jQuery("#map img").attr('src', get_map_url);
+            jQuery("#all_classroom").html("<p>リストを取得中です。</p>");
+            jQuery("#side").html("<p>リストを取得中です。</p>");
+            
+            setTimeout(classroom_change_after_get_list, 2000);
+        });
+
+        function get_request_url(request) {
+            var get_token = jQuery("#token").val();
+            if(get_token != ''){
+                return "https://script.google.com/macros/s/AKfycbxUOr_3z9P0PTwz1tyjCBMkWrSLLW_oqskeMyAoVYUhmVTBgKaLnvLWki_WOxqQrfCRjg/exec?token=" + get_token + "&requesttype=" + request + "&classroom=" + get_classroom_text();
+            }else{
+                var get_teacher_userid = jQuery("#userid").val();
+                return "https://script.google.com/macros/s/AKfycbxhmdX5m6Y-nw1sbquxcQhg0egbl03KpWcKD3Ahsz3AcRrXEYRzbNLISkM9fUcnSnwA/exec?teacher_userid=" + get_teacher_userid + "&requesttype=" + request + "&classroom=" + get_classroom_text();
+            }
+        }
+
+        now_check = false;
+        classroom_change = false;
+        get_wait_list_interval = setInterval(get_wait_list, 2500);
+        get_wait_count_interval = setInterval(get_wait_count, 60000);
+
+        function get_wait_count() {
+            var wait_count = jQuery("#wait_count").text();
+            if (wait_count != "0" && wait_count != "" && jQuery("#token").val() != "") {
+                if (Push.Permission.has() == true && jQuery("[name=classroom]").prop("disabled") == false && jQuery("#push_mute_off").css("display") != "none") {
+                    Push.create("待機中の生徒が" + wait_count + "人います！", { onClick: function () { this.close(); } });
+                }
+            }
+        }
+
+        function get_wait_list() {
+            if (now_check == false && jQuery("#token").val() != "") {
+                now_check = true;
+
+                jQuery.ajax({
+                    type: "GET",
+                    url: get_request_url("get_wait_list"),
+                    dataType: "text"
+                }).done(function (data) {
+                    if (classroom_change == false) {
+                        data = JSON.parse(data);
+                        if (data["message"] != "auth") {
+                            if (data["content"].length >= 1) {
+                                var old_wait_count = jQuery("#wait_count").text();
+                                if (old_wait_count < data["content"].length -1 && jQuery("#push_music_on").css("display") == "inline") {
+                                    jQuery("#pushaudio").get(0).currentTime = 0;
+                                    jQuery("#pushaudio").get(0).play();
+                                }
+                                
+                                if(jQuery("[name=classroom]").prop("disabled") == true){
+                                    var append_button_disabled = "disabled='disabled'";
+                                }
+                                
+                                jQuery("#all_classroom").html(data["content"][0]);
+                                
+                                var get_wait_list_count = data["content"].length - 1;
+                                var view_data = '<p id="waitingcount">待ち人数 : <span id="wait_count">' + get_wait_list_count + '</span>人</p>';
+                                for (let count = 1; count <= get_wait_list_count; count++) {
+                                    view_data += '<p class="waitinglist">' + data["content"][count][0] + '( ' + data["content"][count][1] + ' )<button class="spot_click" '+ append_button_disabled +' data-studentmail="' + data["content"][count][1] + '" data-width="' + data["content"][count][2] + '" data-height="' + data["content"][count][3] + '" data-question="' + data["content"][count][4] + '">場所を表示</button></p>';
+                                }
+                            } else {
+                                view_data = '<p id="waitingcount">待ち人数 : <span id="wait_count">0</span>人</p><p>待機している生徒はいません。</p>';
+                            }
+                        } else {
+                            if (!alert("権限がないアカウントです。")) {
+                                location.reload();
+                            }
+                        }
+                    }
+
+                    jQuery("#side").html(view_data);
+                    now_check = false;
+                }).fail(function () {
+                    error_message("reload");
+                });
+            } else {
+                console.log("true or null!!!");
+            }
+        }
+
+        /*jQuery(document).on('click', '#waitingcount' , function() {
+        <span id="all_classroom_waiting_count"></span>
+        });*/
+
+        jQuery(document).on("click", "#push_music", function () {
+            if (jQuery("#push_music_on").css("display") == "inline") {
+                jQuery("#push_music_on").css("display", "none");
+                jQuery("#push_music_off").css("display", "inline");
+            } else {
+                jQuery("#push_music_on").css("display", "inline");
+                jQuery("#push_music_off").css("display", "none");
+            }
+        });
+
+        jQuery(document).on("click", ".spot_click", function () {
+            var studentmail = jQuery(this).data('studentmail');
+            var question = jQuery(this).data('question');
+            var width_percent = jQuery(this).data('width');
+            var height_percent = jQuery(this).data('height');
+
+            jQuery("#point").css("display", "block");
+
+            point_img_width = jQuery('#point img').width();
+            point_img_height = jQuery('#point img').height();
+
+            point_img_width = point_img_width / 2 * 1.06;
+            point_img_height = point_img_height / 2 * 1.88;
+
+            point_set_width = map_img_width * (width_percent / 100) - point_img_width;
+            point_set_height = map_img_height * (height_percent / 100) - point_img_height;
+
+            jQuery("#point").css({ top: point_set_height, left: point_set_width });
+
+            jQuery("#buttonarea").css("display", "block");
+            jQuery("#buttonarea").html('<div id="question_area"><p>質問内容:<br>' + question + '<p></div><p><button style="display:none;" id="complete_click" data-studentmail="' + studentmail + '">対応完了</button><button id="support_click" data-studentmail="' + studentmail + '">対応する</button><button id="cancel_click" data-studentmail="' + studentmail + '">キャンセルする</button></p>');
+        });
+
+        jQuery(document).on("click", "#support_click", function () {
+            console.log("support start");
+
+            jQuery('[name=classroom]').prop('disabled', true);
+
+            jQuery("#support_click").css("display", "none");
+            jQuery(".spot_click").prop("disabled", true);
+            jQuery("#buttonarea").css("display", "none");
+            jQuery("#support_register_wait_message").css("display", "block");
+
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("support_start&studentmail=" + jQuery(this).data('studentmail')),
+                dataType: "text"
+            }).done(function (data) {
+                jQuery("#support_register_wait_message").css("display", "none");
+                data = JSON.parse(data);
+                data = data["message"];
+                if (data == 'now') {
+                    jQuery("#point").css("display", "none");
+                    jQuery('[name=classroom]').prop('disabled', false);
+                    alert('現在、他の方が対応中のため、登録できませんでした。');
+                } else if (data == 'complete') {
+                    jQuery("#point").css("display", "none");
+                    jQuery('[name=classroom]').prop('disabled', false);
+                    alert('この挙手は対応済み、もしくはキャンセルされています。');
+                } else {
+                    jQuery("#buttonarea").css("display", "block");
+                    jQuery("#complete_click").css("display", "inline");
+                }
+            }).fail(function () {
+                error_message("reload");
+            });
+        });
+
+        jQuery(document).on("click", "#cancel_click", function () {
+            console.log("cancel");
+            jQuery("#buttonarea").css("display", "none");
+            jQuery("#point").css("display", "none");
+            jQuery(".spot_click").prop("disabled", false);
+
+            if (jQuery("[name=classroom]").prop("disabled")) {
+                jQuery.ajax({
+                    type: "GET",
+                    url: get_request_url("support_cancel&studentmail=" + jQuery(this).data('studentmail')),
+                    dataType: "text"
+                }).done(function (data) {
+                    console.log(data);
+                    jQuery('[name=classroom]').prop('disabled', false);
+                }).fail(function () {
+                    error_message("message");
+                });
+            } else {
+                jQuery('[name=classroom]').prop('disabled', false);
+            }
+        });
+
+        jQuery(document).on("click", "#complete_click", function () {
+            jQuery("#buttonarea").css("display", "none");
+            jQuery("#complete_click").css("display", "none");
+            jQuery("#point").css("display", "none");
+            jQuery(".spot_click").prop("disabled", false);
+
+            jQuery.ajax({
+                type: "GET",
+                url: get_request_url("support_complete&studentmail=" + jQuery(this).data('studentmail')),
+                dataType: "text"
+            }).done(function (data) {
+                console.log(data);
+                jQuery('[name=classroom]').prop('disabled', false);
+            }).fail(function () {
+                error_message("message");
+            });
+        });
+
+        function map_size_set() {
+            jQuery("#pointarea").css({ "width": "100%", "height": "auto" });
+            map_img_height = jQuery('#map img').height();
+            map_img_width = jQuery('#map img').width();
+            jQuery("#pointarea").css({ "height": map_img_height, "width": map_img_width });
+        }
+
+        function error_message(type) {
+            if (type == "reload") {
+                if (!alert("エラーが発生しました。\nリロードします。")) {
+                    location.reload();
+                }
+            } else if (type == "message") {
+                alert("エラーが発生しました。\nもう一度お試しください。");
+            }
+        }
+    </script>
+</body>
+</html>
